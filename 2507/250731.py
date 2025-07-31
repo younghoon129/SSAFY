@@ -74,6 +74,11 @@ class BankAccount:
         return amount > 0
     
 account = BankAccount("김영훈", 500)
-
+print(account.balance)
 account.deposit(500)
 print(account.balance)
+account.withdraw(200)
+
+BankAccount.set_interest_rate(0.83)
+print(BankAccount.interest_rate)
+print(BankAccount.is_positive)
