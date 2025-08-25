@@ -1,3 +1,4 @@
+#"1, 3
 class Stack:
     def __init__(self, capacity = 10):
         self.capacity = capacity
@@ -9,6 +10,7 @@ class Stack:
         return self.top == self.capacity -1
         pass
 
+        #스택의 마지막 위치에 데이터를 삽입하는 메서드
     def push(self, item):
         if self.is_full():
             raise IndexError("Stack if Full")
@@ -23,6 +25,7 @@ class Stack:
             raise IndexError("Stack is Empty")
         # 스택 pop 은 데이터를 삭제뿐만 아니라, 반환도 함
         item = self.items[self.top]
+        #????
         # 기존에 들어있던 데이터를 제거
         self.items[self.top] = None
         #맨 마지막 원소가 사라졌으니, 그 밑에 있는 친구가 마지막 원소가 된다.
@@ -33,7 +36,7 @@ class Stack:
     def peek(self):
         if self.is_empty():
             raise IndexError("Stack is Empty")
-        return self.items[self.top]
+        return self.items[self.top] 
 
     def is_empty(self):
         return self.top == -1
@@ -50,6 +53,7 @@ def check_match(expression):
         '}' : '{',
         ']' : '['
     }
+    #주어진 문자열을 순회하면서, 괄호의 종류에 따라 push, pop을 진행하면서 비교
     for char in expression:
         # 여는 괄호가 나오면, 바로 스택에 넣는다.
         if char in matching_dict.values():
@@ -79,6 +83,7 @@ for ex in examples:
         print(f"{ex} 는 올바르지 않은 괄호")
 
 
+#-------------------------------------------------------------
 
 
 
