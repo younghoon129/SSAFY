@@ -1,0 +1,4 @@
+- update/ instance
+- @login_required
+- delete
+- change_password
