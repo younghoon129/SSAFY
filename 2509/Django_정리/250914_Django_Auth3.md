@@ -2,3 +2,5 @@
 
 - views.update
     * request.user 미들웨어 기능
+- change_password
+    * request.user, request.POST
