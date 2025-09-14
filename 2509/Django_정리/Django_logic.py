@@ -37,7 +37,7 @@ def update(request, pk):
 
 def create(request):
     if request.method == 'POST':
-        form = ArticleForm(request.POST)
+        form = ArticleForm(request.POST, request.FILES)
         if form.is_valid():
             article = form.save()
             return redirect('articles:detail', article.pk)
@@ -52,7 +52,7 @@ def create(request):
 def update(request, pk):
     article = Article.objects.get(pk=pk)
     if request.method == 'POST':
-        form = ArticleForm(request.POST, instance = article)
+        form = ArticleForm(request.POST, request.FILES, instance = article)
         if form.is_valid():
             form.save()
             return redirect('articles:detail', article.pk)
@@ -63,3 +63,38 @@ def update(request, pk):
         'article':article
     }    
     return render(context, 'articles/update.html', context)
+
+
+
+def login(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(request, request.POST)
+        if form.is_valid():
+            auth_login(request, form.get.user())
+            return redirect('articles:index')
+    else:
+        form = AuthenticationForm()
+    context = {
+        'form':form
+    }
+    return render(request, 'accounts/login.html', context)
+
+
+
+def signup(request):
+    if request.method == 'POST':
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+
+            # user = form.save()
+            # auth_login(request, user)
+            return redirect('articles:index')
+    else:
+        form = CustomUserCreationForm()
+    context = {
+        'form':form
+    }
+    return render(request, 'accounts/signup.html', context)
+
+
