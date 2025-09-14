@@ -107,7 +107,6 @@ def update(request):
     else:
         form = CustomUserChangeForm(instance=request.user)
     context = {
-        'article':article,
         'form':form
     }
     return render(request, 'accounts/update.html', context)
