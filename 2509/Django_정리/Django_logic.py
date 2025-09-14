@@ -98,3 +98,32 @@ def signup(request):
     return render(request, 'accounts/signup.html', context)
 
 
+def update(request):
+    if request.method == 'POST':
+        form = CustomUserChageForm(request.POST, instance = request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('articles:index')
+    else:
+        form = CustomUserChangeForm(instance=request.user)
+    context = {
+        'article':article,
+        'form':form
+    }
+    return render(request, 'accounts/update.html', context)
+
+
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.uesr, request.POST)
+        if form.is_valid():
+            form.save()
+            update_session_auth_hash(request, request.user)
+
+            return redirect('articles:index')
+    else:
+        form = PasswordChangeForm(request.user)
+    context = {
+        'form':form
+    }
+    return render(request, 'accounts/chanage_password.html', context)
