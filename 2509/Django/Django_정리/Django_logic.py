@@ -1,3 +1,10 @@
+from django.contrib.auth import login
+
+
+
+
+
+
 # 생성하기
 def create(request):
     article = ArticleForm(request.POST)
@@ -114,7 +121,7 @@ def update(request):
 
 def change_password(request):
     if request.method == 'POST':
-        form = PasswordChangeForm(request.uesr, request.POST)
+        form = PasswordChangeForm(request.user, request.POST)
         if form.is_valid():
             form.save()
             update_session_auth_hash(request, request.user)
