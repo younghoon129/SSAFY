@@ -44,7 +44,7 @@
   - 속성 값에 경로에 대한 이름을 지정
   - RouterLink에 v-bind를 사용해 'to' props 객체로 전달 가능
   - 하드 코딩된 URL을 사용하지 않아도 되며, 오타 방지 가능
-    - RouterLink : to="{ name: 'home'}"
+    - RouterLink :to="{ name: 'home'}"
 
 ## Dynamic Route Matching
 - URL의 일부를 변수로 사용하여 경로를 동적으로 매칭
