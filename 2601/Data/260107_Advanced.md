@@ -1,0 +1,141 @@
+# 목차
+- Pandas와 Numpy(c기반)
+- 데이터 처리와 집계
+- 데이터 병합 및 변환
+
+## Pandas, Numpy
+- Pandas
+    - 친화적, 고수준, 브로드 캐스팅(for문 보다 좋음)
+    - 주로 2차원 데이터(표, DataFrame)를 다룰 때 유용
+    - 데이터 분석, 전처리, 조작이 편리
+    - 엑셀, CSV, SQL 결과 같은 표 형식의 데이터 처리에 최적화되어 있음
+- Numpy는 다차원 배열(1D, 2D, 3D 이상)을 다루는데 특화
+    - 특히 딥러닝, 고성능 연산을 위해 주로 사용
+    - 3차원 이상 데이터(이미지, 시계열, 텐서 연산 등) 처리에 적합
+
+- ndarray
+    - N 차원(Dimension) 배열(Array) 객체
+    - 생성
+        - np.array([[1,2,3],[4,5,6]]) -> 2차원 ndarray
+        - np.arange(10) -> 숫자 numpy.ndarray
+        - zeros((3, 2), dtype='int32') -> 3열 2행 0
+        - one((3, 2), dtype='int32') -> 3열 2행 1
+        - ndarray.dtype
+            - object 로 사용하면 성능적으로 떨어짐 그래서 타입 맞추는 게 좋음
+            - ndarray 내 데이터 타입은 같은 데이터 타입만 가능 -> ndarray.dtype 속성
+            - 즉, 한 개의 ndarray 객체에 int와 float 함께 불가능 -> astype() 활용하여 형변환
+        - 형태(ndarray.shape)
+            - 형태 보여줌
+        - 차원(ndarray.ndim)
+            - 1차원일 경우 1, 2차원일 경우 2 결과 출력
+        - 차원, 크기 변경(reshape())
+            - 차원을 변경할 때 요소의 개수가 맞지 않으면 ValueError 발생
+            - ex: np.arange(10) -> array.reshape(4, 3) 하면 10개를 12개로 하려하기 때문에 에러 발생
+            - reshape(-1, N)(자동 계산)
+                - -1에 해당하는 axis의 크기는 가변적
+                - -1이 아닌 인자 값에 해당하는 axis 크기는 인자 값으로 고정하여 shape 변환
+    - axis
+        - 1차원일 경우, shape(4,)(axis 0 -> 가로)
+        - 2차원일 경우, shape(2,4)(axis 0 -> 세로, axis 1 -> 가로)
+        - 3차원일 경우, shape(3,2,4)(axis 0 -> z축, axis 1 -> 세로, axis 2 -> 가로)
+
+## 데이터 처리와 집계
+- 객체 생성
+    - Default index인 RangeIndex를 사용한 객체 생성
+    - datetime index를 사용한 객체 생성
+        - dates = pd.date_range('20130101', peridos=6)
+        - pd.DataFrame(np.random.randn(6, 4), index=dates, columns=list('ABCD')) -> 6열 4행, 날짜, 컬럼명 A,B,C,D
+    - 딕셔너리
+        - pd.DataFrame({'a': 내용, 'b': 내용})
+- 데이터 확인
+    - DataFrame을 numpy로 변환
+        - .to_numpy() -> 수치 계산
+        - .describe() -> 통계정보 확인
+        - .T -> Transpose(전치, 행과 열 변환) 연산
+- label을 활용한 데이터의 선택
+    - DataFrame에서 slice를 사용하여 행들을 추출
+    - 특정 행과 열에 있는 scalar 값 추출
+    - 열까지 고려할 경우
+        - loc 사용
+    - 단일 값 가져올 경우
+        - loc(위치 기반 접근) 보단 at 이 더 빨라서 더 좋음
+- reindex로 새로운 행/열 구성
+    - DataFrame을 원하는 인덱스/컬럼 순서로 재배치하거나 존재하지 않는 라벨을 추가하여 새로운 구조의 DataFrame 생성 가능
+    - 새로운 인덱스/컬럼을 구성하고 필요한 구조만 선택
+    - 원하는 정보만 인덱스로 뽑아와서 새로운 DataFrame 생성
+        - 없는 컬럼도 추가 가능하고 개별적으로 값 추가해서 생성 가능
+- sort_values()
+    - 오름차순이 기본(ascending = True)
+    - 내림차순 정렬 시 ascending = False 설정
+    - sort_values(by=['Name'], ascending=True) -> by는 정렬할 컬럼 기준
+- unique()
+    - 컬럼 내 몇건의 고유값이 있는지 파악(set 같은 느낌)
+    - nunique()를 사용하면 값의 개수를 파악
+- DataFrame, Series에서 집계(Aggregation) 수행
+    - mean, sum, min, max, count
+- groupby()
+    - 데이터를 특정 컬럼을 기준으로 묶은 후, 해당 그룹에 대해 집계연산 수행
+    - 동일한 컬럼에 대해 서로 다른 집계함수를 적용하고 싶은 경우 agg() 활용
+        - titanic.groupby('Pclass')['Age'].max(), titanic.groupby('Pclass')['Age'].min()
+        - -> titanic.groupby('Pclass')['Age'].agg(['max', 'min'])
+    - 여러 컬럼에 여러 집계함수 적용시 agg()내에 딕셔너리 형태로 전달 가능
+        - titanic.groupby('Pclass')['Age'].agg(변수명=(컬럼명, 함수명), 변수명=(컬럼명, 함수명))
+        - -> 딕셔너리를 변수화 시켜서 agg 안에 넣어도 됨
+- apply()
+    - 반복문 안써도 되지만 numpy 처럼 빠른 연산은 아님(편하다는 장점임)
+    - lambda식(일반 함수도 가능)을 결합하여 데이터를 일괄적으로 가공
+    - 새로운 컬럼 생성할 때 기존 컬럼.apply(lambda 함수) 사용해서 추가 가능
+    - 함수화 시켜서 .apply 안에 넣을 수 있음
+
+## 데이터 병합 및 변환
+- 데이터 병합
+    - concat
+        - .concat([df1, df2], axis= 0(병합 방향)) 행 병합
+    - inner Merge
+        - 열 기반으로 병합, 키를 이용해서 교집합인 부분만 병합함(교집합 아닌 부분은 제거)
+        - pd.merge(df1, df2, on='key(특정 컬럼)', how='inner')
+    - Outer Merge
+        - 두 데이터 모두 보존
+        - 합집합으로 병합, 값 없는 부분은 NaN
+        - pd.merge(df1, df2, on='key(특정 컬럼)', how='outer')
+    - Left Merge
+        - merge 안에 왼쪽 df1에 포함된 키만을 기준으로 병합
+        - pd.merge(df1, df2, on='key(특정 컬럼)', how='left')
+    - Right Merge
+        - merge 안에 오른쪽 df2에 포함된 키만을 기준으로 병합
+        - pd.merge(df1, df2, on='key(특정 컬럼)', how='right')
+    - join
+        - df1 에 있는 index 값을 기준으로 병합(교집합 비슷)
+        - 특정 컬럼을 .set_index로 인덱스 설정할 수 있음
+        - df1.join(df2(병합할 dataframe 혹은 dataframe의 인덱스), how='left')
+    - 열 이름 변경(suffixes)
+        - 키 말고도 열 이름이 겹칠 경우 suffixes가 중복된 컬럼들 다 접미사 붙여줌
+        - pd.merge(df1, df2, on='key(특정 컬럼)', how='inner', suffixes=('_left', '_right')) -> 접미사 df1의 컬럼에 _left 붙고, df2의 컬럼에 _right 붙음
+    - 열 제거(.drop)
+        - 불필요한 열 제거
+            - .drop('제거할 컬럼', axis=1)
+    - 여러 열 기준 병합
+        - 두개 이상의 열 병합할 때
+        - pd.merge(df1, df2, on='[key1, key2](특정 컬럼)', how='inner')
+- 데이터 변환
+    - replace()
+        - 원본 값을 특정 값으로 대체
+            - .replace({'변경 전': '변경 후'})
+        - 결측값 처리 시에도 사용 가능
+            - replace(np.nan, '변경할 값')
+    - pivot()
+        - groupby(집계 기능) 하고 pivot 해야 됨
+        - 행과 열의 위치를 바꿔서 원하는 표 형태로 재배치
+        - 특정 기준을 열 방향으로 펼쳐서 만든 표 형태를 **wide-format**(가로로 넓게 펼쳐진 형태)라 표현
+        - 어떤 값을 행, 열, 값 으로 지정할 것인지 명확히 지정
+        - .pivot(index='sex'(행), columns='Pclass'(열), values='age'(값))
+    - pivot_table()
+        - groupby(집계 기능) 별도 하지 않고, 한번에 가능
+        - pivot은 구조만 바꾸는 기능이고, 값을 계산해주는 기능은 없음
+        - pivot_table은 **wide-format + 집계 기능**
+        - 같은 조합(Sex, Survived)에서 값이 여러 개일 수 있음 -> pivot은 이런 경우 에러 발생
+    - melt()
+        - 여러 개의 열을 행 방향으로 펼쳐서 하나의 열로 모아주는 기능
+        - 가로로 넓게 퍼져 있던 데이터를 세로로 길게 변환(**Long-format**)하는 과정
+        - 다양한 분석을 더 유연하게 하기 위해 변환이 필요한 경우 사용
+        - 2개 이상의 컬럼을 하나로 합침, count도 해주면서 
