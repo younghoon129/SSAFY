@@ -134,8 +134,13 @@
             - 그래서 Hadamard matrix 사용
                 - 데이터 포인트를 넓게 펼치지만 조밀하게 만듦
 
-- Quantization: QLoRA - NF4
-    - 
+- Quantization: QLoRA
+    - LLM을 효과적으로 finetuning 하기 위해 설계된 새로운 방법론, 특히 메모리 효율성을 극대화하면서 성능 저하 없이 작업을 수행할 수 있는 것이 특징
+    - 기존의 LoRA의 장점을 가져가되, 거기서 더 효율적으로 Memory 이점을 가져가기 위한 방법론
+    - VRAM을 기존보다 더 효율적으로 줄일 수 있다는 점에서 고무적
+- QLoRA - NF4
+    - QLoRA는 모델 가중치가 정규 분포를 따른다는 가정에서 출발, 이를 기반으로 데이터 분포와 양자화 데이터 타입 간의 매칭을 최적화
+    - Quantile Quantization
 
 ## Prompt 엔지니어링
 - 프롬프트란
