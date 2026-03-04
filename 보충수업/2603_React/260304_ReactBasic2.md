@@ -35,7 +35,21 @@
     - Server Side Rendering, Multi Page Application
   - 풍부한 생태계
 
-- React Component
+## JSX
+  - JavaScript를 확장한 문법(Javascript XML)
+  - 모양은 HTML에 가까움
+  - JSX 코드 내에 JavaScript 삽입 가능
+  - React에선 JSX를 사용하여 화면을 그림
+
+- JSX 특징
+  - JSX에서 사용되는 태그의 속성 이름이 HTML과 조금 다름
+    - class -> className
+    - for -> htmlFor
+    - onclick -> onClick
+  - 태그를 명시적으로 닫아줘야 함
+  - 하나의 태그로 감싸져 있어야 함
+
+## React Component
   - 스스로 상태를 관리하는 캡슐화된 코드 조각
   - 하나의 JSX 값을 반환하는 함수 (또는 클래스)
   - 컴포넌트를 통해 화면 구성
