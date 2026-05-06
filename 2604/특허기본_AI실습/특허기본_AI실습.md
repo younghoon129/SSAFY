@@ -40,3 +40,6 @@
 ## AI 디자인 도구로 개발 예시 제출
 - ![alt text](image-4.png)
 - Stitch 까지(google)
+- ![alt text](image-5.png)
+
+- 소프트웨어가 특허 좀 더 어렵고, 제조, 도매 쪽이 좀 더 낫다는 말이 있음
