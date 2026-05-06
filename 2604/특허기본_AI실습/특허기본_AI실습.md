@@ -43,3 +43,5 @@
 - ![alt text](image-5.png)
 
 - 소프트웨어가 특허 좀 더 어렵고, 제조, 도매 쪽이 좀 더 낫다는 말이 있음
+
+-![alt text](image-6.png)
