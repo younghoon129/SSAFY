@@ -1,0 +1,18 @@
+# 지원 활용 방법/ 서대규 (빅모빌리티 대표)
+- ![alt text](image-1.png)
+- ![alt text](image.png)
+- ![alt text](image-2.png)
+- ![alt text](image-3.png)
+- 센서블박스
+    - 스타트업을 위한 인간지능 큐레이터 센서블박스
+- 지원사업 (각 지역 기관)
+    - 경기스타트업플랫폼
+    - 스타트업 플러스
+- 정부지원사업 실전 가이드(사업계획서 작성)
+    - ![alt text](image-4.png)
+- ![alt text](image-5.png)
+- ![alt text](image-6.png)
+- 런웨이 1년 이상
+    - ![alt text](image-8.png)
+    - ![alt text](image-9.png)
+    - ![alt text](image-10.png)
